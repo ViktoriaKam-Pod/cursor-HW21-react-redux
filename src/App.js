@@ -1,24 +1,43 @@
-import logo from './logo.svg';
+import { Main_Content } from './components/content';
+import content from './components/publications'; 
 import './App.css';
+import AddNewPublication from './pages/AddNewPublication';
+import { useSelector } from 'react-redux';
 
 function App() {
+  const publication = useSelector(state => state.publicationReduser.publication)
+  console.log(publication);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <div className='App'>
+        <AddNewPublication/>
+        {publication?.map(el => {
+          return (
+            <div className="main-content">
+          <div className="main-card">
+              <div className="info-up">
+                  <p className="name">{el.species}</p>
+                  <p className="species">{el.select}</p>
+              </div>
+              <p className="info-text">{el.content}</p>
+              <div className="main-info">
+                  <img src={el.image} alt="photo" className="main-image"></img>
+              </div>
+          </div>
+      </div>
+          )
+        })
+        }
+
+          {content.map(content => (
+              <Main_Content
+                  key={content.id}
+                  photo={content.photo}
+                  name={content.name}
+                  species={content.species}
+                  content={content.content}
+              />
+          ))}
+      </div>
   );
 }
 
